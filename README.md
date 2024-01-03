@@ -1,6 +1,8 @@
-# Backend and Frontend Template
+# Course DIT341 - Web and Mobile Development 
 
-Latest version: https://git.ita.chalmers.se/courses/dit341/group-00-web (public Github [mirror](https://github.com/dit341/group-00-web))
+In this repository I save the project where we created a web & mobile application where users can surf for surf spots and gears that are available for renting.
+
+This project was developed in a group of 3 people.
 
 ## Project Structure
 
