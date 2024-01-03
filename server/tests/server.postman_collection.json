@@ -1,0 +1,1603 @@
+{
+	"info": {
+		"_postman_id": "af1ca262-c6e1-4850-949d-556248186c45",
+		"name": "Final Submission Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23101496"
+	},
+	"item": [
+		{
+			"name": "Stores",
+			"item": [
+				{
+					"name": "Post new store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"toBeDeleted\", jsonData._id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Unique store\",\r\n    \"description\": \"This is a store description\",\r\n    \"email\": \"email@surfstore.com\",\r\n    \"phoneNumber\": \"03112345\",\r\n    \"openingHours\": \"09:00-16:30\",\r\n    \"adress\": {\r\n        \"country\": \"Sweden\",\r\n        \"street\": \"Hamngatan\",\r\n        \"streetNr\": 45,\r\n        \"postalCode\": 43535,\r\n        \"city\": \"Göteborg\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Store by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct openingHours\", function () {\r",
+									"    pm.expect(jsonData.openingHours).to.eql(\"07:00-17:30\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"openingHours\" : \"07:00-17:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get store by name(query)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData[0].name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData[0].name).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/?name=Unique store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Unique store"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add gear to store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\" : \"Rope 6\",\r\n    \"price\": \"65\",\r\n    \"size\": \"medium\",\r\n    \"gender\": \"male\",\r\n    \"description\": \"text\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfGears",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfGears"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add lesson to store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Beginner 101\",\r\n    \"price\": \"99\",\r\n    \"instructor\": \"Erik\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfLessons",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfLessons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add board to store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"volume\":\"15L\",\r\n    \"price\": 165,\r\n    \"size\": \"7.4ft\",\r\n    \"style\": \"Longboard\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfBoards",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfBoards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get store by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"gearToBeDeleted\", jsonData.surfGears[0]);\r",
+									"pm.environment.set(\"lessonToBeDeleted\", jsonData.surfLessons[0]);\r",
+									"pm.environment.set(\"boardToBeDeleted\", jsonData.surfLessons[0]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct openingHours\", function () {\r",
+									"    pm.expect(jsonData.openingHours).to.eql(\"07:00-17:30\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get lesson by ID from Store by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfLessons/{{lessonToBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfLessons",
+								"{{lessonToBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all lessons by store ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array contains strings\", function() {\r",
+									"    pm.expect(jsonData[0]).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfLessons",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfLessons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete lesson by ID from Store by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct openingHours\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Unique store\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}/surfLessons/{{lessonToBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}",
+								"surfLessons",
+								"{{lessonToBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put store by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"gearToBeDeleted\", jsonData.surfGears[0]);\r",
+									"pm.environment.set(\"lessonToBeDeleted\", jsonData.surfLessons[0]);\r",
+									"pm.environment.set(\"boardToBeDeleted\", jsonData.surfLessons[0]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct openingHours\", function () {\r",
+									"    pm.expect(jsonData.openingHours).to.eql(\"06:00-16:30\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Roca Store\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Roca Store\",\r\n    \"openingHours\" : \"06:00-16:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete store by ID(use variable)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores/{{toBeDeleted}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores",
+								"{{toBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all stores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/stores",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"temporaryUser\", jsonData.user._id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"postman@live.com\",\r\n    \"fullName\": \"PostManUser\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/users/signuphashed",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signuphashed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users/{{temporaryUser}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{temporaryUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a users favouriteStores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users/{{temporaryUser}}/favouriteStores/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{temporaryUser}}",
+								"favouriteStores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"PostManPatch\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{temporaryUser}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{temporaryUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.fullName).to.eql(\"PostManTester\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"PostManTester\",\r\n    \"skillLevel\": \"Beginner\",\r\n    \"boardPreference\": [\"Shortboard\"],\r\n    \"clothingSize\": \"Medium\",\r\n    \"userHeight\": \"187\",\r\n    \"userWeight\": \"89\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{temporaryUser}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{temporaryUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users/{{temporaryUser}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{temporaryUser}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SurfLessons",
+			"item": [
+				{
+					"name": "Post new surfLesson",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"tempLesson\", jsonData._id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Beginner Sunrise\",\r\n    \"price\": 595,\r\n    \"instructor\":\"Harry\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfLessons",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put surfLesson by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has correct name\", function () {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Sunset Pro\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Sunset Pro\",\r\n    \"price\": 995,\r\n    \"instructor\":\"Harry\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfLessons/{{tempLesson}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons",
+								"{{tempLesson}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch surfLesson by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"instructor\":\"Sanna\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfLessons/{{tempLesson}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons",
+								"{{tempLesson}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a surfLesson by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfLessons/{{tempLesson}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons",
+								"{{tempLesson}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all surfLessons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfLessons/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete surfLesson by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfLessons/{{tempLesson}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfLessons",
+								"{{tempLesson}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SurfGears",
+			"item": [
+				{
+					"name": "Post new surfGears",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"tempGears\", jsonData._id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Rope\",\r\n    \"price\": 69,\r\n    \"size\": \"44\",\r\n    \"gender\":\"male\",\r\n    \"description\":\"Blue rope\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfGears",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfGears"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all surfGears",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfGears/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfGears",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get surfGears by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfGears/{{tempGears}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfGears",
+								"{{tempGears}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put surfGear by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Waterproof Mobileholder\",\r\n    \"price\": 99,\r\n    \"size\": 0,\r\n    \"gender\":\"\",\r\n    \"description\":\"Waterproof\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfGears/{{tempGears}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfGears",
+								"{{tempGears}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete surfGear by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfGears/{{tempGears}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfGears",
+								"{{tempGears}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SurfBoards",
+			"item": [
+				{
+					"name": "Post new SurfBoard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"tempBoard\", jsonData._id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"volume\": \"60L\",\r\n    \"price\": 12000,\r\n    \"size\": \"9.6ft\",\r\n    \"style\": \"Longboard\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfBoards",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfBoards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all surfBoards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfBoards/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfBoards",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get surfBoard by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body has _id\", function() {\r",
+									"    pm.expect(jsonData._id).to.be.a('String');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfBoards/{{tempBoard}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfBoards",
+								"{{tempBoard}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch surfBoard by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"style\": \"Funboard\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/surfBoards/{{tempBoard}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfBoards",
+								"{{tempBoard}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete SurfBoard by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/surfBoards/{{tempBoard}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"surfBoards",
+								"{{tempBoard}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "jsondata",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "toBeDeleted",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "gearToBeDeleted",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "boardToBeDeleted",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "lessonToBeDeleted",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
